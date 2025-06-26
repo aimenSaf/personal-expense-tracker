@@ -2,7 +2,7 @@
 
 package com.expensetracker.repository;
 
-import com.expensetracker.model.User;  //imports the "User" entity class that maps to a db table.
+import com.expensetracker.model.User;
 import org.springframework.data.jpa.repository.JpaRepository;  //built in CURD operations
 
 import java.util.Optional;

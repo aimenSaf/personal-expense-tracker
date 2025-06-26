@@ -10,4 +10,4 @@ Full-stack expense tracker using Java Spring Boot &amp; React
  - Lombok – to reduce boilerplate code
  - JWT Tokens
 
-**Java Version: JDK 24**
+**Java Version: JDK 20.02**
