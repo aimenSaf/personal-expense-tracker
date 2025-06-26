@@ -2,6 +2,7 @@
 
 package com.expensetracker.controller;
 
+import com.expensetracker.dto.LoginRequest;
 import com.expensetracker.dto.RegisterRequest;
 import com.expensetracker.model.User;
 import com.expensetracker.service.UserService;
@@ -20,4 +21,10 @@ public class UserController {
     public User register(@RequestBody RegisterRequest request) {  //srping "deserilizes" the JSON request body into a RegistrationRequest object.
         return userService.register(request);  //service layer is callled to handle the logic and returns the created Usre object as JSON.
     }
+
+    @PostMapping("/login") //annotation maps HTTP POST requests made to /login to this method.
+    public User login(@RequestBody LoginRequest request) {
+        return userService.login(request);  //this method called when the endpoint '/login' hit.
+    }
+
 }
