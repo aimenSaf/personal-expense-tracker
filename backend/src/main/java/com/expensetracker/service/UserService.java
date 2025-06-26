@@ -4,6 +4,7 @@
 //Saves the user in the db
 package com.expensetracker.service;   //
 
+import com.expensetracker.dto.JwtResponse;
 import com.expensetracker.dto.LoginRequest;
 import com.expensetracker.dto.RegisterRequest;
 import com.expensetracker.model.User;
@@ -20,6 +21,9 @@ public class UserService {   //Service componenet
     @Autowired
     private UserRepository userRepository;  //inject the UserRepository bean automatically.
 
+    @Autowired
+    private JwtService jwtService;
+
     private final BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();  //hashing algo
 
     public User register(RegisterRequest request) {  //handle user registration
@@ -33,17 +37,19 @@ public class UserService {   //Service componenet
         return userRepository.save(user);  //using JPA's save(), new user saved to db
     }
 
-    public User login(LoginRequest request) { //DTO recieved for login
-        User user = userRepository.findByEmail(request.getEmail())    //fetches the user through their email; if email not found in db, then error thrown.
+
+    public JwtResponse login(LoginRequest request) {
+        User user = userRepository.findByEmail(request.getEmail())
                 .orElseThrow(() -> new RuntimeException("User not found"));
 
-        boolean passwordMatches = passwordEncoder.matches(request.getPassword(), user.getPassword()); //Compares raw password (from request) with the hashed password in the DB.
+        boolean passwordMatches = passwordEncoder.matches(request.getPassword(), user.getPassword());
 
         if (!passwordMatches) {
             throw new RuntimeException("Invalid password");
         }
 
-        return user; // for now return user info (in real apps, return JWT)
+        String token = jwtService.generateToken(user.getEmail());
+        return new JwtResponse(token);
     }
 
 }
