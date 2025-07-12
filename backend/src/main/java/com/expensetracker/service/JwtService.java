@@ -36,6 +36,17 @@ public class JwtService {
                 .compact();
     }
 
+    public String extractEmail(String token) {
+        return Jwts.parserBuilder()              // new builder entry‐point
+                .setSigningKey(secretKey)      // same key you used to sign
+                .build()
+                .parseClaimsJws(token)         // validates signature + expiration
+                .getBody()
+                .getSubject();                 // "sub" claim = email
+        // we stored email in "sub"
+    }
+
+
 
 
 }

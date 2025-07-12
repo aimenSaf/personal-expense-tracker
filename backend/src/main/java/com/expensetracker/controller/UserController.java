@@ -8,6 +8,8 @@ import com.expensetracker.dto.RegisterRequest;
 import com.expensetracker.model.User;
 import com.expensetracker.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.autoconfigure.neo4j.Neo4jProperties;
+import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
 @RestController   //tells Spring this class handles REST API requests and returns JSON responses.
@@ -26,6 +28,12 @@ public class UserController {
     @PostMapping("/login")
     public JwtResponse login(@RequestBody LoginRequest request) {
         return userService.login(request);
+    }
+
+    @GetMapping("/me")
+    public User me(Authentication auth) {
+        //auth.getname() returns the email we put in the token
+        return userService.getCurrentUser(auth.getName());
     }
 
 

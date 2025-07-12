@@ -37,8 +37,7 @@ public class UserService {   //Service componenet
         return userRepository.save(user);  //using JPA's save(), new user saved to db
     }
 
-
-    public JwtResponse login(LoginRequest request) {
+    public JwtResponse login(LoginRequest request) { //looks up the user by email.
         User user = userRepository.findByEmail(request.getEmail())
                 .orElseThrow(() -> new RuntimeException("User not found"));
 
@@ -47,9 +46,14 @@ public class UserService {   //Service componenet
         if (!passwordMatches) {
             throw new RuntimeException("Invalid password");
         }
-
+        //jwt covers statless sessions: the token travles back to client who will attach it to subsequent requests
         String token = jwtService.generateToken(user.getEmail());
         return new JwtResponse(token);
+    }
+
+    public User getCurrentUser(String email){
+        return userRepository.findByEmail(email)
+                .orElseThrow(() -> new RuntimeException("User not found"));
     }
 
 }

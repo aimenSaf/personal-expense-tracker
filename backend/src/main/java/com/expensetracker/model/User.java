@@ -6,6 +6,7 @@ import lombok.*;  //helps reduce boilerplate code (like getters, setters, constr
 import java.time.LocalDateTime;  //date-time object used to store timestamps.
 
 //annotations that give the class speicla behaviors
+@Data
 @Entity  //Marks this class as a JPA entity — it will map to a database table.
 @Getter @Setter //Lombok will automatically generate getter and setter methods for all fields.
 @NoArgsConstructor @AllArgsConstructor //Generates a constructor with no arguments. Required by JPA. / Generates a constructor with all fields as arguments.
